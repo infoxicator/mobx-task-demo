@@ -4,14 +4,22 @@ import { store } from '../stores/TaskStore'
 
 const TaskList = observer(() => {
   console.log('TaskList rendered')
+  const tasks = store.tasks;
 
+  if (store.isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (store.isError) {
+    return <div>Error: {tasks.error.message}</div>
+  }
   return (
     <div className="task-list">
       <h2>Tasks</h2>
-      {store.tasks.length === 0 ? (
+      {tasks.length === 0 ? (
         <p>No tasks yet. Add some!</p>
       ) : (
-        store.tasks.map(task => (
+        tasks.map(task => (
           <TaskItem
             key={task.id}
             task={task}

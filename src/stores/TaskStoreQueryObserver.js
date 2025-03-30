@@ -1,9 +1,9 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-import { MobxQuery } from '../mobx-query'
 import { tasksQuery } from '../queries/useTasksQuery'
+import { QueryObserver } from '@tanstack/react-query';
 
 class TaskStore {
-  serverTasks = new MobxQuery({...tasksQuery});
+  serverTasks = new QueryObserver({...tasksQuery});
 
   constructor() {
     makeAutoObservable(this)

@@ -13,7 +13,7 @@ const TaskItem = observer(({ task }) => {
       />
       <span className="task-title">{task.title}</span>
       <span className="task-date">
-        {task.createdAt.toLocaleTimeString()}
+        {new Date(task.createdAt).toLocaleTimeString()}
       </span>
       <button 
         onClick={() => store.deleteTask(task.id)}
