@@ -1,34 +1,32 @@
 import { observer } from 'mobx-react-lite'
-import TaskItem from './TaskItem'
 import { store } from '../stores/TaskStore'
+import SearchForm from './SearchForm'
+import TaskItem from './TaskItem'
 
 const TaskList = observer(() => {
-  console.log('TaskList rendered')
-  const tasks = store.tasks;
-
-  if (store.isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (store.isError) {
-    return <div>Error: {tasks.error.message}</div>
-  }
   return (
     <div className="task-list">
-      <h2>Tasks</h2>
-      {tasks.length === 0 ? (
-        <p>No tasks yet. Add some!</p>
+      <SearchForm />
+      {store.isLoading ? (
+        <div>Loading...</div>
+      ) : store.isError ? (
+        <div>Error loading tasks</div>
       ) : (
-        tasks.map(task => (
-          <TaskItem
-            key={task.id}
-            task={task}
-          />
-        ))
+        <div className="tasks">
+          {store.filteredTasks.map(task => (
+            <TaskItem key={task.id} task={task} />
+          ))}
+          {store.filteredTasks.length === 0 && (
+            <div className="no-tasks">
+              {store.searchQuery 
+                ? 'No tasks match your search'
+                : 'No tasks yet'}
+            </div>
+          )}
+        </div>
       )}
     </div>
   )
 })
 
-TaskList.displayName = 'TaskList'
 export default TaskList

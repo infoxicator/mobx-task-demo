@@ -4,6 +4,10 @@ import { tasksQuery } from '../queries/useTasksQuery'
 
 class TaskStore {
   serverTasks = new MobxQuery({...tasksQuery});
+   
+  state = {
+    searchQuery: '',
+  };
 
   constructor() {
     makeAutoObservable(this)
@@ -27,12 +31,23 @@ class TaskStore {
 
   deleteTask(taskId) {
     runInAction(() => {
-      this.tasks =this.tasks.filter(task => task.id !== taskId)
+      this.tasks.replace(this.tasks.filter(task => task.id !== taskId))
     })
   }
-
+  get searchQuery() {
+    return this.state.searchQuery;
+  }
+  setSearchQuery(value) {
+    console.log('setSearchQuery', value)
+    this.state.searchQuery = value;
+  }
   get tasks() {
     return this.serverTasks.query()?.data || [];
+  }
+  get filteredTasks() {
+    return this.tasks.filter((task) =>
+      task.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
+    );
   }
 
   get isLoading() {
@@ -70,6 +85,10 @@ class TaskStore {
         : 0
       }
     ]
+  }
+
+  dispose() {
+    this.serverTasks.dispose();
   }
 }
 
