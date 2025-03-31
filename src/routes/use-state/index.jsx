@@ -5,6 +5,8 @@ import TaskForm from './TaskForm'
 
 function App() {
   const [tasks, setTasks] = useState([])
+  const [searchQuery, setSearchQuery] = useState('')
+  const filteredTasks = tasks.filter(task => task.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   const addTask = (title) => {
     setTasks(prev => [...prev, {
@@ -33,7 +35,9 @@ function App() {
       <TaskForm onAddTask={addTask} />
       <div className="content">
         <TaskList 
-          tasks={tasks}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          tasks={filteredTasks}
           onToggle={toggleTask}
           onDelete={deleteTask}
         />
