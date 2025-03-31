@@ -1,9 +1,10 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-import { tasksQuery } from '../queries/useTasksQuery'
-import { QueryObserver } from '@tanstack/react-query';
 
 class TaskStore {
-  serverTasks = new QueryObserver({...tasksQuery});
+  tasks = [];
+  state = {
+    searchQuery: '',
+  };
 
   constructor() {
     makeAutoObservable(this)
@@ -27,36 +28,21 @@ class TaskStore {
 
   deleteTask(taskId) {
     runInAction(() => {
-      this.tasks =this.tasks.filter(task => task.id !== taskId)
+      this.tasks.replace(this.tasks.filter(task => task.id !== taskId))
     })
   }
-
-  get tasks() {
-    return this.serverTasks.query()?.data || [];
+  get searchQuery() {
+    return this.state.searchQuery;
+  }
+  setSearchQuery(value) {
+    console.log('setSearchQuery', value)
+    this.state.searchQuery = value;
   }
 
-  get isLoading() {
-    return this.serverTasks.isLoading
-  }
-
-  get isError() {
-    return this.serverTasks.isError
-  }
-
-  get completedTasks() {
-    return this.tasks.filter(task => task.completed).length
-  }
-
-  get pendingTasks() {
-    return this.tasks.length - this.completedTasks;
-  }
-  get totalTasks() {
-    return this.tasks.length
-  }
-  get completionRate() {
-    return this.tasks.length 
-      ? ((this.completedTasks.length / this.tasks.length) * 100).toFixed(1)
-      : 0
+  get filteredTasks() {
+    return this.tasks.filter((task) =>
+      task.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
+    );
   }
 
   get stats() {
@@ -70,6 +56,10 @@ class TaskStore {
         : 0
       }
     ]
+  }
+
+  dispose() {
+    this.serverTasks.dispose();
   }
 }
 

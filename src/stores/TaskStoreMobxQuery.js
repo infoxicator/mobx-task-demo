@@ -58,22 +58,6 @@ class TaskStore {
     return this.serverTasks.isError
   }
 
-  get completedTasks() {
-    return this.tasks.filter(task => task.completed).length
-  }
-
-  get pendingTasks() {
-    return this.tasks.length - this.completedTasks;
-  }
-  get totalTasks() {
-    return this.tasks.length
-  }
-  get completionRate() {
-    return this.tasks.length 
-      ? ((this.completedTasks.length / this.tasks.length) * 100).toFixed(1)
-      : 0
-  }
-
   get stats() {
     const completed = this.tasks.filter(t => t.completed).length
     return [

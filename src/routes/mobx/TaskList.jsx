@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { store } from '../stores/TaskStore'
+import { store } from '../../stores/TaskStoreMobx'
 import SearchForm from './SearchForm'
 import TaskItem from './TaskItem'
 

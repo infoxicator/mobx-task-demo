@@ -1,7 +1,6 @@
-import TaskList from './components/TaskList'
-import TaskStats from './components/TaskStats'
-import TaskForm from './components/TaskForm'
-import './App.css'
+import TaskList from './TaskList'
+import TaskStats from './TaskStats'
+import TaskForm from './TaskForm'
 
 function App() {
   return (

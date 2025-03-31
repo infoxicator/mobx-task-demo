@@ -1,5 +1,5 @@
 import { memo, useState } from 'react'
-import { store } from '../stores/TaskStore'
+import { store } from '../../stores/TaskStoreMobxQuery'
 
 const TaskForm = memo(() => {
   const [title, setTitle] = useState('')

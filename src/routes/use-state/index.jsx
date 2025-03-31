@@ -2,7 +2,6 @@ import { useState } from 'react'
 import TaskList from './TaskList'
 import TaskStats from './TaskStats'
 import TaskForm from './TaskForm'
-import '../App.css'
 
 function App() {
   const [tasks, setTasks] = useState([])
