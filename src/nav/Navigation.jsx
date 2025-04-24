@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router'
+import { Link } from 'react-router-dom'
 import './Navigation.css'
 
 const Navigation = () => {
@@ -6,29 +6,29 @@ const Navigation = () => {
     <nav className="main-nav">
       <ul>
       <li>
-          <NavLink 
+          <Link 
             to="/use-state" 
             className={({ isActive }) => isActive ? 'active' : ''}
           >
             use-state
-          </NavLink>
+          </Link>
         </li>
         <li>
-          <NavLink 
+          <Link 
             to="/mobx" 
             className={({ isActive }) => isActive ? 'active' : ''}
             end
           >
             Mobx
-          </NavLink>
+          </Link>
         </li>
         <li>
-          <NavLink 
+          <Link 
             to="/mobx-query" 
             className={({ isActive }) => isActive ? 'active' : ''}
           >
             Mobx-query
-          </NavLink>
+          </Link>
         </li>
       </ul>
     </nav>

@@ -1,14 +1,10 @@
-import { makeAutoObservable, runInAction } from 'mobx'
+import { observable } from 'mobx'
 
 class TaskStore {
-  tasks = [];
-  state = {
+  @observable tasks = [];
+  @observable state = {
     searchQuery: '',
   };
-
-  constructor() {
-    makeAutoObservable(this)
-  }
 
   addTask(title) {
     this.tasks.push({
@@ -27,15 +23,12 @@ class TaskStore {
   }
 
   deleteTask(taskId) {
-    runInAction(() => {
       this.tasks.replace(this.tasks.filter(task => task.id !== taskId))
-    })
   }
   get searchQuery() {
     return this.state.searchQuery;
   }
   setSearchQuery(value) {
-    console.log('setSearchQuery', value)
     this.state.searchQuery = value;
   }
 
@@ -56,10 +49,6 @@ class TaskStore {
         : 0
       }
     ]
-  }
-
-  dispose() {
-    this.serverTasks.dispose();
   }
 }
 

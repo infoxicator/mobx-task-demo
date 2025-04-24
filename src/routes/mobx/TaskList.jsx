@@ -7,11 +7,6 @@ const TaskList = observer(() => {
   return (
     <div className="task-list">
       <SearchForm />
-      {store.isLoading ? (
-        <div>Loading...</div>
-      ) : store.isError ? (
-        <div>Error loading tasks</div>
-      ) : (
         <div className="tasks">
           {store.filteredTasks.map(task => (
             <TaskItem key={task.id} task={task} />
@@ -22,9 +17,8 @@ const TaskList = observer(() => {
                 ? 'No tasks match your search'
                 : 'No tasks yet'}
             </div>
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 })

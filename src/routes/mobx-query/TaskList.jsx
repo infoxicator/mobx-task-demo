@@ -7,16 +7,16 @@ const TaskList = observer(() => {
   return (
     <div className="task-list">
       <SearchForm />
-      {store.isLoading ? (
+      {store.tasks.isLoading ? (
         <div>Loading...</div>
-      ) : store.isError ? (
+      ) : store.tasks.isError ? (
         <div>Error loading tasks</div>
       ) : (
         <div className="tasks">
-          {store.filteredTasks.map(task => (
+          {store.tasks.data.map(task => (
             <TaskItem key={task.id} task={task} />
           ))}
-          {store.filteredTasks.length === 0 && (
+          {store.tasks.data.length === 0 && (
             <div className="no-tasks">
               {store.searchQuery 
                 ? 'No tasks match your search'

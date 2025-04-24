@@ -1,9 +1,9 @@
 import { observable, runInAction } from 'mobx';
-import { QueryClient, QueryObserver } from '@tanstack/react-query';
+import { QueryObserver } from '@tanstack/react-query';
 import { getQueryClient } from '../query-client';
 
 export class MobxQuery {
-  #reactQueryResult = observable({}, { deep: false });
+  #reactQueryResult = observable({});
   #queryClient = getQueryClient();
 
   constructor(options = {}) {
@@ -21,17 +21,21 @@ export class MobxQuery {
         this.#queryClient,
         opts,
       ));
-      runInAction(() =>
-        Object.assign(this.#reactQueryResult, observer.getCurrentResult()),
-      );
-      this.subscription = observer.subscribe((result) =>
-        runInAction(() => Object.assign(this.#reactQueryResult, result)),
-      );
+      runInAction(() => {
+        console.log('upate initial', observer.getCurrentResult())
+        return Object.assign(this.#reactQueryResult, observer.getCurrentResult())
+
+      });
+      this.subscription = observer.subscribe((result) => {
+        console.log('observer fired', result)
+        return runInAction(() => Object.assign(this.#reactQueryResult, result))
+    });
     }
     return this.#reactQueryResult;
   }
 
   dispose() {
+    console.log('dispose called')
     this.subscription?.();
     delete this.observer;
   }
