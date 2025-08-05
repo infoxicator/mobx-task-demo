@@ -30,6 +30,14 @@ const Navigation = () => {
             Mobx-query
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/zustand" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Zustand
+          </NavLink>
+        </li>
       </ul>
     </nav>
   )
