@@ -32,6 +32,14 @@ const Navigation = () => {
         </li>
         <li>
           <NavLink 
+            to="/context-api" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Context API
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
             to="/zustand" 
             className={({ isActive }) => isActive ? 'active' : ''}
           >
