@@ -1,21 +1,26 @@
 import React from 'react';
-import { useAtomValue } from 'jotai';
-import { filteredTasksAtom, searchQueryAtom } from '../atoms';
+import { useAtom } from 'jotai';
+import { filteredTaskAtomsAtom, searchQueryAtom, taskAtomsAtom } from '../atoms';
 import SearchForm from './SearchForm';
 import TaskItem from './TaskItem';
 
 const TaskList = () => {
-  const filteredTasks = useAtomValue(filteredTasksAtom);
-  const searchQuery = useAtomValue(searchQueryAtom);
+  const [filteredTaskAtoms] = useAtom(filteredTaskAtomsAtom);
+  const [searchQuery] = useAtom(searchQueryAtom);
+  const [, dispatch] = useAtom(taskAtomsAtom);
 
   return (
     <div className="task-list">
       <SearchForm />
       <div className="tasks">
-        {filteredTasks.map(task => (
-          <TaskItem key={task.id} task={task} />
+        {filteredTaskAtoms.map((taskAtom) => (
+          <TaskItem 
+            key={String(taskAtom)} 
+            taskAtom={taskAtom} 
+            remove={() => dispatch({ type: 'remove', atom: taskAtom })}
+          />
         ))}
-        {filteredTasks.length === 0 && (
+        {filteredTaskAtoms.length === 0 && (
           <div className="no-tasks">
             {searchQuery 
               ? 'No tasks match your search'

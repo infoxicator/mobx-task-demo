@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { useSetAtom } from 'jotai';
-import { addTaskAtom } from '../atoms';
+import { tasksAtom } from '../atoms';
 
 const TaskForm = () => {
   const [title, setTitle] = useState('');
-  const addTask = useSetAtom(addTaskAtom);
+  const setTasks = useSetAtom(tasksAtom);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (title.trim()) {
-      addTask(title.trim());
+      setTasks(tasks => [...tasks, {
+        id: Date.now(),
+        title: title.trim(),
+        completed: false,
+        createdAt: new Date(),
+      }]);
       setTitle('');
     }
   };

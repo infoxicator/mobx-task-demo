@@ -18,4 +18,6 @@ const SearchForm = () => {
   );
 };
 
-export default SearchForm; 
+SearchForm.displayName = 'SearchForm';
+// export default React.memo(SearchForm); 
+export default SearchForm;

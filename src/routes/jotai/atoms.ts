@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+import { splitAtom } from 'jotai/utils';
 
 export type Task = {
   id: number;
@@ -11,53 +12,21 @@ export type Task = {
 export const tasksAtom = atom<Task[]>([]);
 export const searchQueryAtom = atom('');
 
-// Derived atom for filtered tasks for performance
-export const filteredTasksAtom = atom((get) => {
-  const tasks = get(tasksAtom);
+// Create an atom for each task in the tasksAtom array
+export const taskAtomsAtom = splitAtom(tasksAtom, task => task.id);
+
+// Derived atom that provides a filtered list of task atoms
+export const filteredTaskAtomsAtom = atom((get) => {
+  const taskAtoms = get(taskAtomsAtom);
   const query = get(searchQueryAtom);
   if (!query) {
-    return tasks;
+    return taskAtoms;
   }
-  return tasks.filter(task => task.title.toLowerCase().includes(query.toLowerCase()));
+  return taskAtoms.filter(taskAtom => {
+    const task = get(taskAtom);
+    return task.title.toLowerCase().includes(query.toLowerCase());
+  });
 });
-
-// Write-only atoms for actions to encapsulate business logic
-export const addTaskAtom = atom(
-  null,
-  (get, set, title: string) => {
-    const newTask: Task = {
-      id: Date.now(),
-      title,
-      completed: false,
-      createdAt: new Date(),
-    };
-    const tasks = get(tasksAtom);
-    set(tasksAtom, [...tasks, newTask]);
-  }
-);
-
-export const toggleTaskAtom = atom(
-  null,
-  (get, set, taskId: number) => {
-    const tasks = get(tasksAtom);
-    set(tasksAtom, tasks.map(task => 
-      {
-        if (task.id === taskId) {
-          return { ...task, completed: !task.completed };
-        }
-        return task;
-      }
-    ));
-  }
-);
-
-export const deleteTaskAtom = atom(
-  null,
-  (get, set, taskId: number) => {
-    const tasks = get(tasksAtom);
-    set(tasksAtom, tasks.filter(task => task.id !== taskId));
-  }
-);
 
 // Derived atoms for stats
 export const completedTasksAtom = atom((get) => get(tasksAtom).filter(task => task.completed).length);
