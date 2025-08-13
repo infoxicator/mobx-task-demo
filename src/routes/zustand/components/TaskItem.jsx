@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTasksStore } from '../tasks-store'
 
-const TaskItem = ({ task }) => {
+const TaskItem = memo(function TaskItem({ taskId }) {
+  const task = useTasksStore(s => s.tasks.find(t => t.id === taskId))
   const toggleTask = useTasksStore(state => state.toggleTask)
   const deleteTask = useTasksStore(state => state.deleteTask)
-  
+
+  if (!task) return null  // safe after deletes
+
   console.log(`TaskItem ${task.id} rendered`)
 
   return (
@@ -18,15 +21,12 @@ const TaskItem = ({ task }) => {
       <span className="task-date">
         {new Date(task.createdAt).toLocaleTimeString()}
       </span>
-      <button 
-        onClick={() => deleteTask(task.id)}
-        className="delete-btn"
-      >
+      <button onClick={() => deleteTask(task.id)} className="delete-btn">
         Delete
       </button>
     </div>
   )
-}
+})
 
 TaskItem.displayName = 'TaskItem'
-export default TaskItem 
+export default TaskItem
