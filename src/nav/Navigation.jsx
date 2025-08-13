@@ -46,6 +46,14 @@ const Navigation = () => {
             Zustand
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/jotai" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Jotai
+          </NavLink>
+        </li>
       </ul>
     </nav>
   )
