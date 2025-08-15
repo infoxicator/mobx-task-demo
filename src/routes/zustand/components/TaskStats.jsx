@@ -1,28 +1,29 @@
 import React from 'react'
-import { useTasks } from '../tasks-store'
 import StatsItem from './StatsItem'
+import { useTasksStore } from '../tasks-store'
 
-const TaskStats = () => {
-  const tasks = useTasks()
-  
-  console.log('TaskStats rendered')
+const TaskStats = () => {  
+  // console.log('TaskStats rendered')
 
-  const completed = tasks.filter(t => t.completed).length;
+  const useRelativeStats = useTasksStore(state => state.useRelativeStats)
+  const setUseRelativeStats = useTasksStore(state => state.setUseRelativeStats)
+  const handleUseRelativeStatsChange = (e) => {
+    setUseRelativeStats(e.target.checked)
+  }
+
   const stats = [
-    { label: 'Total Tasks', value: tasks.length },
-    { label: 'Completed', value: completed },
-    { label: 'Pending', value: tasks.length - completed },
-    { label: 'Completion Rate', value: tasks.length 
-      ? ((completed / tasks.length) * 100).toFixed(1) + '%'
-      : '0%'
-    }
+    { label: 'Total Tasks', key: 'totalTasks' },
+    { label: 'Completed', key: 'completedTasks' },
+    { label: 'Pending', key: 'pendingTasks' },
+    { label: 'Completion Rate',  key: 'completionRate', formatter: (value) => `${value.toFixed(1)}%` },
   ];
 
   return (
     <div className="task-stats">
       <h2>Statistics</h2>
+      <div>Display relative stats: <input type="checkbox" checked={useRelativeStats} onChange={handleUseRelativeStatsChange} /></div>
       {stats.map((stat) => (
-        <StatsItem key={stat.label} label={stat.label} value={stat.value} />
+        <StatsItem key={stat.label} label={stat.label} statKey={stat.key} value={stat.value} formatter={stat?.formatter} />
       ))}
     </div>
   )
