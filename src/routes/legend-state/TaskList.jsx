@@ -1,10 +1,11 @@
-import { observer } from '@legendapp/state/react'
+import { useValue } from '@legendapp/state/react'
 import { legendStore } from '../../stores/TaskStoreLegendState'
 import SearchForm from './SearchForm'
 import TaskItem from './TaskItem'
 
-const TaskList = observer(() => {
-  const tasks = legendStore.filteredTasks.get()
+const TaskList = () => {
+  const tasks = useValue(legendStore.filteredTasks)
+  const searchQuery = useValue(legendStore.state.searchQuery)
 
   return (
     <div className="task-list">
@@ -15,7 +16,7 @@ const TaskList = observer(() => {
         ))}
         {tasks.length === 0 && (
           <div className="no-tasks">
-            {legendStore.state.searchQuery.get()
+            {searchQuery
               ? 'No tasks match your search'
               : 'No tasks yet'}
           </div>
@@ -23,6 +24,6 @@ const TaskList = observer(() => {
       </div>
     </div>
   )
-})
+}
 
 export default TaskList

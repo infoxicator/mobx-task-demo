@@ -1,8 +1,8 @@
-import { observer } from '@legendapp/state/react'
+import { useValue } from '@legendapp/state/react'
 import { legendStore } from '../../stores/TaskStoreLegendState'
 
-const SearchForm = observer(() => {
-  const query = legendStore.state.searchQuery.get()
+const SearchForm = () => {
+  const query = useValue(legendStore.state.searchQuery)
 
   return (
     <div className="search-form">
@@ -24,6 +24,6 @@ const SearchForm = observer(() => {
       )}
     </div>
   )
-})
+}
 
 export default SearchForm
