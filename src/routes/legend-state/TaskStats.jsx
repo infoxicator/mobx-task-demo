@@ -1,9 +1,9 @@
-import { observer } from '@legendapp/state/react'
+import { useValue } from '@legendapp/state/react'
 import { legendStore } from '../../stores/TaskStoreLegendState'
 import StatsItem from './StatsItem'
 
-const TaskStats = observer(() => {
-  const stats = legendStore.stats.get()
+const TaskStats = () => {
+  const stats = useValue(legendStore.stats)
 
   return (
     <div className="task-stats">
@@ -13,6 +13,6 @@ const TaskStats = observer(() => {
       ))}
     </div>
   )
-})
+}
 
 export default TaskStats
