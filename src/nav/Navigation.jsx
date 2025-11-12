@@ -54,6 +54,14 @@ const Navigation = () => {
             Jotai
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/legend-state" 
+            className={({ isActive }) => isActive ? 'active' : ''}
+          >
+            Legend State
+          </NavLink>
+        </li>
       </ul>
     </nav>
   )

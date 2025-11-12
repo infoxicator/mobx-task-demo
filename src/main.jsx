@@ -7,6 +7,7 @@ import MobxApp from './routes/mobx';
 import Zustand from './routes/zustand';
 import Jotai from './routes/jotai';
 import ContextApiApp from './routes/context-api';
+import LegendStateApp from './routes/legend-state';
 import { BrowserRouter, Routes, Route } from "react-router";
 import AppUseState from './routes/use-state'
 import Navigation from './nav/Navigation.jsx'
@@ -33,6 +34,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/context-api" element={<ContextApiApp />} />
       <Route path="/zustand" element={<Zustand />} />
       <Route path="/jotai" element={<Jotai />} />
+      <Route path="/legend-state" element={<LegendStateApp />} />
     </Routes>
      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
